@@ -75,7 +75,11 @@ export default function AnimeDetailPanel({
   }, [animeId]);
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end bg-black/50">
+    <div
+      className={`fixed inset-0 z-50 flex justify-end  ${
+        visible ? "bg-black/50" : ""
+      }`}
+    >
       <div
         ref={panelRef}
         className={`w-full max-w-3xl h-full bg-white shadow-xl p-6 overflow-y-auto relative transform transition-transform duration-300 ${
