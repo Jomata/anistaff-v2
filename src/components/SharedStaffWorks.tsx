@@ -15,7 +15,15 @@ export default function SharedStaffWorks({ shared }: Props) {
         {shared.map((work) => (
           <li key={work.id}>
             <h4 className="font-semibold text-gray-800">
-              {work.title} ({work.sharedStaff.length} people)
+              <a
+                href={work.siteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-blue-600 hover:underline"
+              >
+                {work.title}
+              </a>{" "}
+              {/* {work.title}  */}({work.sharedStaff.length} people)
             </h4>
             <ul className="ml-2 mt-1 space-y-0.5 text-sm text-gray-600 border-l-4 border-blue-500 pl-2">
               {work.sharedStaff.map((person) => (

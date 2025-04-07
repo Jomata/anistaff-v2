@@ -27,6 +27,7 @@ export interface AniListStaff {
       node: {
         id: number;
         title: { romaji: string };
+        siteUrl: string;
         startDate: { year: number | null; month: number | null; day: number | null };
       };
     }[];

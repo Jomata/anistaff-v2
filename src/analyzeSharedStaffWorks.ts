@@ -11,11 +11,13 @@ export function analyzeSharedStaffWorks(
   }>>();
 
   const workTitles = new Map<number, string>();
+  const workUrls = new Map<number, string>();
 
   for (const person of staff) {
     for (const work of person.allWorks) {
-      // Store title for later
+      // Store title and siteUrl for later
       workTitles.set(work.id, work.title);
+      workUrls.set(work.id, work.siteUrl);
 
       if (!sharedMap.has(work.id)) {
         sharedMap.set(work.id, new Map());
@@ -40,6 +42,7 @@ export function analyzeSharedStaffWorks(
     .map(([workId, staffMap]) => ({
       id: workId,
       title: workTitles.get(workId) ?? "(Untitled)",
+      siteUrl: workUrls.get(workId) ?? "",
       sharedStaff: Array.from(staffMap.values()),
     }))
     .filter((entry) => entry.sharedStaff.length >= 2)

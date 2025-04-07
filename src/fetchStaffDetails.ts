@@ -11,6 +11,7 @@ export async function fetchStaffDetails(id: number): Promise<StaffWork[]> {
             staffRole
             node {
               id
+              siteUrl
               title { romaji }
               startDate { year month day }
             }
@@ -31,6 +32,7 @@ export async function fetchStaffDetails(id: number): Promise<StaffWork[]> {
 
     return {
       id: edge.node.id,
+      siteUrl: edge.node.siteUrl,
       title: edge.node.title.romaji,
       role: edge.staffRole,
       date,
