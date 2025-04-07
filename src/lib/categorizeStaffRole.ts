@@ -1,4 +1,4 @@
-import { StaffCategory } from "./types";
+import { StaffCategory } from "../types";
 
 export function categorizeStaffRole(role: string): StaffCategory | null {
   const normalized = role.toLowerCase();

@@ -1,5 +1,5 @@
-import { categorizeStaffRole } from "./categorizeStaffRole";
-import { RawStaff, CleanStaffMember } from "./types";
+import { categorizeStaffRole } from "../lib/categorizeStaffRole";
+import { RawStaff, CleanStaffMember } from "../types";
 
 export function cleanStaff(raw: RawStaff): CleanStaffMember | null {
   const category = categorizeStaffRole(raw.role);

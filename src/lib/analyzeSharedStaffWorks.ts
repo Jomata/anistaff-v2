@@ -1,4 +1,4 @@
-import { CleanStaffMember, SharedStaffWork } from "./types";
+import { CleanStaffMember, SharedStaffWork } from "../types";
 
 export function analyzeSharedStaffWorks(
   staff: CleanStaffMember[]

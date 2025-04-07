@@ -1,4 +1,4 @@
-import { StaffWork } from "./types";
+import { StaffWork } from "../types";
 
 export function extractTopWorks(works: StaffWork[], max = 4): StaffWork[] {
   if (works.length <= max) return works;

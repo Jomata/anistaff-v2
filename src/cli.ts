@@ -1,5 +1,5 @@
-import { getAnimeDetails } from "./getAnimeDetails";
-import { getRandomRecentAnime } from "./getRandomRecentAnime";
+import { getAnimeDetails } from "./service/getAnimeDetails";
+import { getRandomRecentAnime } from "./service/getRandomRecentAnime";
 
 async function main() {
   const arg = process.argv[2];

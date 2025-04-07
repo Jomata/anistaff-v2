@@ -1,6 +1,6 @@
 import { fetchGraphQL } from "./fetchGraphQL";
 import { AniListMedia } from "./anilistTypes";
-import { AnimeCoreDetails } from "./types";
+import { AnimeCoreDetails } from "../../types";
 
 export async function fetchAnimeCoreDetails(id: number): Promise<AnimeCoreDetails> {
   const query = `

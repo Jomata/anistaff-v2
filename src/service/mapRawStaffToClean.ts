@@ -1,6 +1,6 @@
-import { RawStaff } from "./types";
-import { CleanStaffMember } from "./types";
-import { categorizeStaffRole } from "./categorizeStaffRole";
+import { RawStaff } from "../types";
+import { CleanStaffMember } from "../types";
+import { categorizeStaffRole } from "../lib/categorizeStaffRole";
 
 export function mapRawStaffToClean(rawList: RawStaff[]): CleanStaffMember[] {
   const grouped = new Map<string, CleanStaffMember>();

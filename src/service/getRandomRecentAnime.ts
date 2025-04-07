@@ -1,4 +1,4 @@
-import { fetchGraphQL } from "./fetchGraphQL";
+import { fetchGraphQL } from "./anilist/fetchGraphQL";
 
 export async function getRandomRecentAnime(minYear = 2020): Promise<{ id: number; title: string }> {
   const page = Math.floor(Math.random() * 50) + 1;

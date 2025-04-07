@@ -3,12 +3,12 @@ import {
   CleanStaffMember,
   SharedStaffWork,
   AnimeCoreDetails,
-} from "./types";
+} from "../types";
 
-import { fetchAnimeCoreDetails } from "./fetchAnimeCoreDetails";
+import { fetchAnimeCoreDetails } from "./anilist/fetchAnimeCoreDetails";
 import { mapRawStaffToClean } from "./mapRawStaffToClean";
 import { enrichStaffWithNotableWorks } from "./enrichStaffWithNotableWorks";
-import { analyzeSharedStaffWorks } from "./analyzeSharedStaffWorks";
+import { analyzeSharedStaffWorks } from "../lib/analyzeSharedStaffWorks";
 import { groupStaffByCategory } from "./groupStaffByCategory";
 
 export async function getAnimeDetails(animeId: number): Promise<CleanAnime> {

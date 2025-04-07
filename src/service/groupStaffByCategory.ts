@@ -1,4 +1,4 @@
-import { CleanStaffMember, GroupedStaffEntry, StaffCategory } from "./types";
+import { CleanStaffMember, GroupedStaffEntry, StaffCategory } from "../types";
 
 export function groupStaffByCategory(
     staff: CleanStaffMember[]

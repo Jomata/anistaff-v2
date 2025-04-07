@@ -2,7 +2,10 @@ import { useState, useEffect } from "react";
 import SeasonSelector from "./components/SeasonSelector";
 import AnimeCard from "./components/AnimeCard";
 import AnimeDetailPanel from "./components/AnimeDetailPanel";
-import { fetchSeasonAnime, SeasonAnimeCardData } from "./fetchSeasonAnime";
+import {
+  fetchSeasonAnime,
+  SeasonAnimeCardData,
+} from "./service/anilist/fetchSeasonAnime";
 
 function App() {
   const [season, setSeason] = useState<string>("");
@@ -33,6 +36,7 @@ function App() {
   return (
     <div className="p-6 max-w-7xl mx-auto">
       <h1 className="text-3xl font-bold mb-4">AniStaff v2</h1>
+
       <SeasonSelector year={currentYear} onSelect={(s) => setSeason(s)} />
       {/* <p className="mt-4 text-gray-600 mb-6">
         Selected season: <strong>{season}</strong> {currentYear}

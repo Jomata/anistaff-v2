@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { getAnimeDetails } from "../getAnimeDetails";
+import { getAnimeDetails } from "../service/getAnimeDetails";
 import { CleanAnime } from "../types";
 import StaffBreakdown from "./StaffBreakdown";
 import SharedStaffWorks from "./SharedStaffWorks";
@@ -109,7 +109,6 @@ export default function AnimeDetailPanel({
             <p className="text-sm text-gray-500 mb-2">
               {data.season} {data.seasonYear}
             </p>
-            Display the description with HTML included
             <p
               className="text-gray-700 mb-4"
               dangerouslySetInnerHTML={{ __html: data.description }}

@@ -1,6 +1,6 @@
 import { fetchGraphQL } from "./fetchGraphQL";
 import { AniListStaff } from "./anilistTypes";
-import { StaffWork } from "./types";
+import { StaffWork } from "../../types";
 
 export async function fetchStaffDetails(id: number): Promise<StaffWork[]> {
   const query = `

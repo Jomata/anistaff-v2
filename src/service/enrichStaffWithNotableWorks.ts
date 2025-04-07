@@ -1,6 +1,6 @@
-import { CleanStaffMember } from "./types";
-import { fetchStaffDetails } from "./fetchStaffDetails";
-import { extractTopWorks } from "./extractTopWorks";
+import { CleanStaffMember } from "../types";
+import { fetchStaffDetails } from "./anilist/fetchStaffDetails";
+import { extractTopWorks } from "../lib/extractTopWorks";
 
 export async function enrichStaffWithNotableWorks(
   staff: CleanStaffMember[],
