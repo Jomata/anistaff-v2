@@ -76,26 +76,29 @@ export default function AnimeDetailPanel({
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex justify-end  ${
+      className={`fixed inset-0 z-50 flex justify-end ${
         visible ? "bg-black/50" : ""
       }`}
     >
       <div
         ref={panelRef}
-        className={`w-full max-w-3xl h-full bg-white shadow-xl p-6 overflow-y-auto relative transform transition-transform duration-300 ${
+        className={`w-full max-w-3xl h-full bg-white dark:bg-gray-900 text-black dark:text-white shadow-xl p-6 overflow-y-auto relative transform transition-transform duration-300 ${
           visible ? "translate-x-0" : "translate-x-full"
         }`}
       >
         <button
-          className="absolute top-4 right-4 text-xl text-gray-500 hover:text-black p-2 rounded-full hover:bg-gray-100 transition bg-white border border-black-300"
+          className="absolute top-4 right-4 text-xl text-gray-500 hover:text-black dark:hover:text-white p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700"
           onClick={handleClose}
         >
           ✕
         </button>
 
         {loading && (
-          <p className="text-gray-600 mt-10">Loading anime data...</p>
+          <div className="flex justify-center items-center h-full">
+            <div className="animate-spin rounded-full h-12 w-12 border-4 border-t-transparent border-blue-500"></div>
+          </div>
         )}
+
         {error && <p className="text-red-500 mt-10">{error}</p>}
 
         {data && (
@@ -106,23 +109,25 @@ export default function AnimeDetailPanel({
               className="w-full rounded-lg mb-4"
             />
             <h2 className="text-2xl font-bold mb-1">{data.title}</h2>
-            <p className="text-sm text-gray-500 mb-2">
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
               {data.season} {data.seasonYear}
             </p>
             <p
-              className="text-gray-700 mb-4"
+              className="mb-4 prose prose-sm dark:prose-invert"
               dangerouslySetInnerHTML={{ __html: data.description }}
             ></p>
-            <div className="flex flex-wrap gap-2">
+
+            <div className="flex flex-wrap gap-2 mb-6">
               {data.genres.map((g) => (
                 <span
                   key={g}
-                  className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full"
+                  className="bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-100 text-xs px-2 py-1 rounded-full"
                 >
                   {g}
                 </span>
               ))}
             </div>
+
             <StaffBreakdown
               groupedStaffByCategory={data.groupedStaffByCategory}
             />

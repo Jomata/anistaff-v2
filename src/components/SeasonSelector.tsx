@@ -30,10 +30,10 @@ export default function SeasonSelector({
       {seasons.map((season) => (
         <button
           key={season}
-          className={`px-4 py-2 rounded-lg border ${
+          className={`px-4 py-2 rounded-lg border transition-colors ${
             selected === season
-              ? "bg-blue-600 text-white"
-              : "bg-white text-gray-800 hover:bg-gray-100"
+              ? "bg-blue-600 text-white border-blue-700"
+              : "bg-white text-gray-800 border-gray-300 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 dark:hover:bg-gray-700"
           }`}
           onClick={() => setSelected(season)}
         >

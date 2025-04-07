@@ -22,16 +22,14 @@ const CATEGORY_ICONS: Record<StaffCategory, string> = {
 };
 
 export default function StaffBreakdown({ groupedStaffByCategory }: Props) {
-  const grouped = groupedStaffByCategory;
-
   return (
     <div className="mt-8">
       <h3 className="text-xl font-bold mb-4">Staff Breakdown</h3>
-      {Object.entries(grouped).map(
+      {Object.entries(groupedStaffByCategory).map(
         ([category, members]) =>
           members.length > 0 && (
             <div key={category} className="mb-6">
-              <h4 className="text-lg font-semibold text-gray-700 mb-2">
+              <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-100 mb-2">
                 {CATEGORY_ICONS[category] ?? "→"}{" "}
                 {CATEGORY_LABELS[category] ?? category}
               </h4>
@@ -42,16 +40,16 @@ export default function StaffBreakdown({ groupedStaffByCategory }: Props) {
                       href={member.siteUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="font-medium text-blue-600 hover:underline"
+                      className="font-medium text-blue-600 dark:text-blue-400 hover:underline"
                     >
                       {member.name}
                     </a>{" "}
-                    <span className="text-sm text-gray-600">
+                    <span className="text-sm text-gray-600 dark:text-gray-300">
                       ({member.roles.join(", ")})
                     </span>
                     {member.notableWorks.length > 0 && (
-                      <div className="border-l-4 text-sm text-gray-500 mt-0.5 ml-2">
-                        <ul className="ml-2 mt-1 space-y-0.5 text-sm text-gray-600">
+                      <div className="border-l-4 border-blue-500 text-sm text-gray-500 dark:text-gray-300 mt-0.5 ml-2">
+                        <ul className="ml-2 mt-1 space-y-0.5">
                           {member.notableWorks.map((work) => (
                             <li key={work.title}>
                               {work.title} ({work.roles.join(", ")})
