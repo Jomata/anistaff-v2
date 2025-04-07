@@ -34,12 +34,14 @@ function App() {
     <div className="p-6 max-w-7xl mx-auto">
       <h1 className="text-3xl font-bold mb-4">AniStaff v2</h1>
       <SeasonSelector onSelect={(s) => setSeason(s)} />
-      <p className="mt-4 text-gray-600 mb-6">Selected season: <strong>{season}</strong> {currentYear}</p>
+      <p className="mt-4 text-gray-600 mb-6">
+        Selected season: <strong>{season}</strong> {currentYear}
+      </p>
 
       {loading && <p className="text-gray-500 mt-6">Loading anime list...</p>}
       {error && <p className="text-red-500 mt-6">{error}</p>}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid gap-6 grid-cols-[repeat(auto-fit,_minmax(240px,_1fr))]">
         {animeList.map((anime) => (
           <AnimeCard
             key={anime.id}
@@ -50,7 +52,10 @@ function App() {
       </div>
 
       {selectedAnimeId && (
-        <AnimeDetailPanel animeId={selectedAnimeId} onClose={() => setSelectedAnimeId(null)} />
+        <AnimeDetailPanel
+          animeId={selectedAnimeId}
+          onClose={() => setSelectedAnimeId(null)}
+        />
       )}
     </div>
   );

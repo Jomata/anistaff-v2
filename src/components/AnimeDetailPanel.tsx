@@ -19,6 +19,11 @@ export default function AnimeDetailPanel({
   const [visible, setVisible] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
 
+  const handleClose = () => {
+    setVisible(false);
+    setTimeout(() => onClose(), 300); // match transition duration
+  };
+
   useEffect(() => {
     setVisible(true);
   }, []);
@@ -26,7 +31,7 @@ export default function AnimeDetailPanel({
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (panelRef.current && !panelRef.current.contains(e.target as Node)) {
-        onClose();
+        handleClose();
       }
     };
 
@@ -34,7 +39,7 @@ export default function AnimeDetailPanel({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [onClose]);
+  }, [handleClose]);
 
   useEffect(() => {
     let cancelled = false;
@@ -79,7 +84,7 @@ export default function AnimeDetailPanel({
       >
         <button
           className="absolute top-4 right-4 text-xl text-gray-500 hover:text-black p-2 rounded-full hover:bg-gray-100 transition bg-white border border-black-300"
-          onClick={onClose}
+          onClick={handleClose}
         >
           ✕
         </button>
