@@ -8,6 +8,7 @@ export type StaffCategory =
 export interface StaffWork {
   id: number;
   title: string;
+  siteUrl: string;
   role: string;
   date?: string;
 }
@@ -36,6 +37,7 @@ export interface GroupedStaffEntry {
 export interface SharedStaffWork {
   id: number;
   title: string;
+  siteUrl: string;
   sharedStaff: {
     id: number;
     name: string;

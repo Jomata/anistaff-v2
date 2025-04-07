@@ -13,8 +13,10 @@ function getUpcomingSeason(): Season {
 }
 
 export default function SeasonSelector({
+  year,
   onSelect,
 }: {
+  year: number;
   onSelect: (season: Season) => void;
 }) {
   const [selected, setSelected] = useState<Season>(getUpcomingSeason());
@@ -35,7 +37,7 @@ export default function SeasonSelector({
           }`}
           onClick={() => setSelected(season)}
         >
-          {season}
+          {season} {year}
         </button>
       ))}
     </div>

@@ -33,10 +33,10 @@ function App() {
   return (
     <div className="p-6 max-w-7xl mx-auto">
       <h1 className="text-3xl font-bold mb-4">AniStaff v2</h1>
-      <SeasonSelector onSelect={(s) => setSeason(s)} />
-      <p className="mt-4 text-gray-600 mb-6">
+      <SeasonSelector year={currentYear} onSelect={(s) => setSeason(s)} />
+      {/* <p className="mt-4 text-gray-600 mb-6">
         Selected season: <strong>{season}</strong> {currentYear}
-      </p>
+      </p> */}
 
       {loading && <p className="text-gray-500 mt-6">Loading anime list...</p>}
       {error && <p className="text-red-500 mt-6">{error}</p>}
