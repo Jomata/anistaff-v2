@@ -27,7 +27,7 @@ export default function AnimeCard({
         className="absolute inset-0 bg-cover bg-center transition-transform duration-200 scale-100 group-hover:scale-105"
         style={{ backgroundImage: `url(${imageUrl})` }}
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent p-4 flex flex-col justify-end">
+      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-4 flex flex-col justify-end">
         <h3 className="text-white font-bold text-lg">{title}</h3>
         <p className="text-sm text-gray-300 mb-1">{studio}</p>
         <p className="text-sm text-gray-200 line-clamp-3">{description}</p>

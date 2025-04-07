@@ -7,7 +7,8 @@ export interface AniListMedia {
   genres: string[];
   tags: { name: string }[];
   trailer?: { id: string; site: string } | null;
-  coverImage?: { large: string } | null;
+  coverImage?: { large: string; extraLarge:string; } | null;
+  bannerImage?: string;
   staff: {
     edges: {
       role: string;

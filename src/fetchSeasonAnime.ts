@@ -3,7 +3,8 @@ import { fetchGraphQL } from "./fetchGraphQL";
 interface SeasonAnimeRaw {
   id: number;
   title: { romaji: string };
-  coverImage: { large: string };
+  coverImage: { large: string; extraLarge: string };
+  bannerImage: string;
   studios: { nodes: { name: string }[] };
   description: string;
   genres: string[];
@@ -25,7 +26,8 @@ export async function fetchSeasonAnime(season: string, year: number): Promise<Se
         media(season: $season, seasonYear: $year, type: ANIME, sort: POPULARITY_DESC) {
           id
           title { romaji }
-          coverImage { large }
+          coverImage { large, extraLarge }
+          bannerImage
           studios { nodes { name } }
           description(asHtml: false)
           genres
@@ -47,6 +49,8 @@ export async function fetchSeasonAnime(season: string, year: number): Promise<Se
     id: anime.id,
     title: anime.title.romaji,
     imageUrl: anime.coverImage.large,
+    bannerImageUrl: anime.bannerImage,
+    imageUrlXL: anime.coverImage.extraLarge,
     studio: anime.studios.nodes[0]?.name ?? "Unknown Studio",
     description: anime.description?.replace(/<[^>]+>/g, "") ?? "No description.",
     genres: anime.genres ?? [],

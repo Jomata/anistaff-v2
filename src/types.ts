@@ -56,6 +56,8 @@ export interface CleanAnime {
   genres: string[];
   trailerUrl?: string;
   coverImageUrl?: string;
+  coverImageUrlXL?: string;
+  bannerImageUrl?: string;
   staff: CleanStaffMember[];
   sharedStaffWorks: SharedStaffWork[];
   groupedStaffByCategory: Record<StaffCategory, GroupedStaffEntry[]>;
@@ -78,5 +80,7 @@ export interface AnimeCoreDetails {
   genres: string[];
   trailerUrl?: string;
   coverImageUrl?: string;
+  coverImageUrlXL?: string;
+  bannerImageUrl?: string;
   staffEdges: RawStaff[];
 }

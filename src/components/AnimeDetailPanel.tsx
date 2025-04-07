@@ -101,7 +101,7 @@ export default function AnimeDetailPanel({
         {data && (
           <>
             <img
-              src={data.coverImageUrl}
+              src={data.bannerImageUrl}
               alt={data.title}
               className="w-full rounded-lg mb-4"
             />

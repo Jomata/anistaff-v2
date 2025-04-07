@@ -28,6 +28,8 @@ export async function getAnimeDetails(animeId: number): Promise<CleanAnime> {
     tags: coreData.tags,
     trailerUrl: coreData.trailerUrl,
     coverImageUrl: coreData.coverImageUrl,
+    coverImageUrlXL: coreData.coverImageUrlXL,
+    bannerImageUrl: coreData.bannerImageUrl,
     staff: enrichedStaff,
     sharedStaffWorks,
     groupedStaffByCategory,

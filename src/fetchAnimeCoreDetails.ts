@@ -14,7 +14,8 @@ export async function fetchAnimeCoreDetails(id: number): Promise<AnimeCoreDetail
         genres
         tags { name }
         trailer { id site }
-        coverImage { large }
+        coverImage { large extraLarge }
+        bannerImage
         staff {
           edges {
             role
@@ -41,6 +42,8 @@ export async function fetchAnimeCoreDetails(id: number): Promise<AnimeCoreDetail
     tags: Media.tags.map((t) => t.name),
     trailerUrl: Media.trailer?.site === "youtube" ? `https://www.youtube.com/watch?v=${Media.trailer.id}` : undefined,
     coverImageUrl: Media.coverImage?.large,
+    coverImageUrlXL: Media.coverImage?.extraLarge,
+    bannerImageUrl: Media.bannerImage,
     staffEdges: Media.staff.edges.map((e) => ({
       id: e.node.id,
       name: e.node.name.full,
