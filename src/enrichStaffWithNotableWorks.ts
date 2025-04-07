@@ -13,6 +13,7 @@ export async function enrichStaffWithNotableWorks(
   // Fetch once per unique ID
   await Promise.all(
     uniqueIds.map(async (id) => {
+      console.log(`Fetching details for staff ID: ${id}`);
       const allFetched = await fetchStaffDetails(id);
       const filtered = allFetched.filter((w) => w.id !== currentAnimeId);
       const notableWorks = extractTopWorks(filtered);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { getAnimeDetails } from "../getAnimeDetails";
 import { CleanAnime } from "../types";
 import StaffBreakdown from "./StaffBreakdown";
@@ -16,6 +16,20 @@ export default function AnimeDetailPanel({
   const [data, setData] = useState<CleanAnime | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (panelRef.current && !panelRef.current.contains(e.target as Node)) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
 
   useEffect(() => {
     setLoading(true);
@@ -55,7 +69,10 @@ export default function AnimeDetailPanel({
 
   return (
     <div className="fixed inset-0 z-50 flex justify-end bg-black/50">
-      <div className="w-full max-w-3xl h-full bg-white shadow-xl p-6 overflow-y-auto relative">
+      <div
+        ref={panelRef}
+        className="w-full max-w-3xl h-full bg-white shadow-xl p-6 overflow-y-auto relative"
+      >
         <button
           className="absolute top-4 right-4 text-xl text-gray-500 hover:text-black p-2 rounded-full hover:bg-gray-100 transition bg-white border border-black-300"
           onClick={onClose}

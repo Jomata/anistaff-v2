@@ -13,13 +13,13 @@ export default function SharedStaffWorks({ shared }: Props) {
       <h3 className="text-xl font-bold mb-4">🤝 Shared Staff Works</h3>
       <ul className="space-y-4">
         {shared.map((work) => (
-          <li key={work.id} className="border-l-4 border-blue-500 pl-4">
+          <li key={work.id}>
             <h4 className="font-semibold text-gray-800">
               {work.title} ({work.sharedStaff.length} people)
             </h4>
-            <ul className="ml-2 mt-1 space-y-0.5 text-sm text-gray-600">
+            <ul className="ml-2 mt-1 space-y-0.5 text-sm text-gray-600 border-l-4 border-blue-500 pl-2">
               {work.sharedStaff.map((person) => (
-                <li key={person.id}>
+                <li key={person.id} className="">
                   {person.name} — {person.roles.join(", ")}
                 </li>
               ))}
