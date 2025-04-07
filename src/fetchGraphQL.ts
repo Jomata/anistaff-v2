@@ -5,6 +5,8 @@ const limiter = new Bottleneck({
   reservoirRefreshAmount: 30,
   reservoirRefreshInterval: 60 * 1000,
   maxConcurrent: 1,
+  minTime: 50,
+  rejectOnDrop: false,
 });
 
 export async function fetchGraphQL<T>(query: string, variables: Record<string, unknown>): Promise<T> {
