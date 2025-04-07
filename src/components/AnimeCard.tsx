@@ -1,6 +1,7 @@
 import React from "react";
 
 interface AnimeCardProps {
+  id: number;
   title: string;
   imageUrl: string;
   studio: string;

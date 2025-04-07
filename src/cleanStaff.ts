@@ -9,7 +9,7 @@ export function cleanStaff(raw: RawStaff): CleanStaffMember | null {
     id: raw.id,
     name: raw.name,
     siteUrl: raw.siteUrl,
-    role: raw.role,
+    roles: [raw.role],
     category,
     notableWorks: [],
     allWorks: [],

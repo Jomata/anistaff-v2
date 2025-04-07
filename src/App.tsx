@@ -1,9 +1,11 @@
 import { useState } from "react";
 import SeasonSelector from "./components/SeasonSelector";
 import AnimeCard from "./components/AnimeCard";
+import AnimeDetailPanel from "./components/AnimeDetailPanel";
 
 const dummyAnimeList = [
   {
+    id: 101922,
     title: "Kimetsu no Yaiba",
     imageUrl: "https://cdn.anilist.co/img/dir/anime/reg/101922.webp",
     studio: "ufotable",
@@ -11,6 +13,7 @@ const dummyAnimeList = [
     genres: ["action", "supernatural", "historical"],
   },
   {
+    id: 113415,
     title: "Jujutsu Kaisen",
     imageUrl: "https://cdn.anilist.co/img/dir/anime/reg/113415.webp",
     studio: "MAPPA",
@@ -18,6 +21,7 @@ const dummyAnimeList = [
     genres: ["action", "dark fantasy", "shounen"],
   },
   {
+    id: 153518,
     title: "Frieren: Beyond Journey’s End",
     imageUrl: "https://cdn.anilist.co/img/dir/anime/reg/153518.webp",
     studio: "Madhouse",
@@ -28,6 +32,7 @@ const dummyAnimeList = [
 
 function App() {
   const [season, setSeason] = useState<string>("");
+  const [selectedAnimeId, setSelectedAnimeId] = useState<number | null>(null);
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
@@ -36,10 +41,18 @@ function App() {
       <p className="mt-4 text-gray-600 mb-6">Selected season: <strong>{season}</strong></p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {dummyAnimeList.map((anime, idx) => (
-          <AnimeCard key={idx} {...anime} />
+        {dummyAnimeList.map((anime) => (
+          <AnimeCard
+            key={anime.id}
+            {...anime}
+            onClick={() => setSelectedAnimeId(anime.id)}
+          />
         ))}
       </div>
+
+      {selectedAnimeId && (
+        <AnimeDetailPanel animeId={selectedAnimeId} onClose={() => setSelectedAnimeId(null)} />
+      )}
     </div>
   );
 }

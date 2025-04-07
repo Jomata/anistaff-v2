@@ -6,17 +6,27 @@ export async function enrichStaffWithNotableWorks(
   staff: CleanStaffMember[],
   currentAnimeId: number
 ): Promise<CleanStaffMember[]> {
-  return await Promise.all(
-    staff.map(async (person) => {
-      const allFetched = await fetchStaffDetails(person.id);
+  const uniqueIds = Array.from(new Set(staff.map((s) => s.id)));
+
+  const fetchedMap = new Map<number, { allWorks: any[]; notableWorks: any[] }>();
+
+  // Fetch once per unique ID
+  await Promise.all(
+    uniqueIds.map(async (id) => {
+      const allFetched = await fetchStaffDetails(id);
       const filtered = allFetched.filter((w) => w.id !== currentAnimeId);
       const notableWorks = extractTopWorks(filtered);
-
-      return {
-        ...person,
-        allWorks: filtered,
-        notableWorks,
-      };
+      fetchedMap.set(id, { allWorks: filtered, notableWorks });
     })
   );
+
+  // Apply results to each staff member
+  return staff.map((person) => {
+    const entry = fetchedMap.get(person.id);
+    return {
+      ...person,
+      allWorks: entry?.allWorks ?? [],
+      notableWorks: entry?.notableWorks ?? [],
+    };
+  });
 }

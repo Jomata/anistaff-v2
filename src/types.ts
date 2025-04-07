@@ -17,7 +17,7 @@ export interface CleanStaffMember {
   name: string;
   siteUrl: string;
   category: StaffCategory;
-  role: string;
+  roles: string[];
   notableWorks: StaffWork[];
   allWorks: StaffWork[];
 }
