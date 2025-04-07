@@ -16,7 +16,12 @@ export default function AnimeDetailPanel({
   const [data, setData] = useState<CleanAnime | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [visible, setVisible] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setVisible(true);
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -32,10 +37,7 @@ export default function AnimeDetailPanel({
   }, [onClose]);
 
   useEffect(() => {
-    setLoading(true);
     let cancelled = false;
-
-    //Stupid fix for Dev, need to remove it or fix it later
     const timeout = setTimeout(() => {
       if (cancelled) return;
 
@@ -59,7 +61,7 @@ export default function AnimeDetailPanel({
             setLoading(false);
           }
         });
-    }, 100); // debounce delay
+    }, 100);
 
     return () => {
       cancelled = true;
@@ -71,7 +73,9 @@ export default function AnimeDetailPanel({
     <div className="fixed inset-0 z-50 flex justify-end bg-black/50">
       <div
         ref={panelRef}
-        className="w-full max-w-3xl h-full bg-white shadow-xl p-6 overflow-y-auto relative"
+        className={`w-full max-w-3xl h-full bg-white shadow-xl p-6 overflow-y-auto relative transform transition-transform duration-300 ${
+          visible ? "translate-x-0" : "translate-x-full"
+        }`}
       >
         <button
           className="absolute top-4 right-4 text-xl text-gray-500 hover:text-black p-2 rounded-full hover:bg-gray-100 transition bg-white border border-black-300"
