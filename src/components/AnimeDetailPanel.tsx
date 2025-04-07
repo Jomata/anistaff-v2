@@ -101,7 +101,7 @@ export default function AnimeDetailPanel({
         {data && (
           <>
             <img
-              src={data.bannerImageUrl}
+              src={data.bannerImageUrl || data.coverImageUrlXL}
               alt={data.title}
               className="w-full rounded-lg mb-4"
             />
@@ -109,8 +109,11 @@ export default function AnimeDetailPanel({
             <p className="text-sm text-gray-500 mb-2">
               {data.season} {data.seasonYear}
             </p>
-            <p className="text-gray-700 mb-4">{data.description}</p>
-
+            Display the description with HTML included
+            <p
+              className="text-gray-700 mb-4"
+              dangerouslySetInnerHTML={{ __html: data.description }}
+            ></p>
             <div className="flex flex-wrap gap-2">
               {data.genres.map((g) => (
                 <span
@@ -121,7 +124,6 @@ export default function AnimeDetailPanel({
                 </span>
               ))}
             </div>
-
             <StaffBreakdown
               groupedStaffByCategory={data.groupedStaffByCategory}
             />
