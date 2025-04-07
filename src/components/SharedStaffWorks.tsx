@@ -18,15 +18,9 @@ export default function SharedStaffWorks({ shared }: Props) {
               {work.title} ({work.sharedStaff.length} people)
             </h4>
             <ul className="ml-2 mt-1 space-y-0.5 text-sm text-gray-600">
-              {Object.entries(
-                work.sharedStaff.reduce<Record<string, string[]>>((acc, person) => {
-                  if (!acc[person.name]) acc[person.name] = [];
-                  acc[person.name].push(...person.roles);
-                  return acc;
-                }, {})
-              ).map(([name, roles], i) => (
-                <li key={i}>
-                  • {name} — {Array.from(new Set(roles)).join(", ")}
+              {work.sharedStaff.map((person) => (
+                <li key={person.id}>
+                  {person.name} — {person.roles.join(", ")}
                 </li>
               ))}
             </ul>

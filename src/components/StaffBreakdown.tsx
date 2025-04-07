@@ -13,48 +13,59 @@ const CATEGORY_LABELS: Record<StaffCategory, string> = {
   other: "Other",
 };
 
+const CATEGORY_ICONS: Record<StaffCategory, string> = {
+  creative: "🎬",
+  visual: "🎨",
+  audio: "🎵",
+  "theme-song": "🎤",
+  other: "🔧",
+};
+
 export default function StaffBreakdown({ groupedStaffByCategory }: Props) {
   const grouped = groupedStaffByCategory;
 
   return (
     <div className="mt-8">
       <h3 className="text-xl font-bold mb-4">Staff Breakdown</h3>
-      {Object.entries(grouped).map(([category, members]) => (
-        <div key={category} className="mb-6">
-          <h4 className="text-lg font-semibold text-gray-700 mb-2">
-            → {CATEGORY_LABELS[category] ?? category}
-          </h4>
-          <ul className="space-y-2">
-            {members.map((member) => (
-              <li key={member.id}>
-                <a
-                  href={member.siteUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-medium text-blue-600 hover:underline"
-                >
-                  {member.name}
-                </a>{" "}
-                <span className="text-sm text-gray-600">
-                  ({member.roles.join(", ")})
-                </span>
-                {member.notableWorks.length > 0 && (
-                  <div className="text-sm text-gray-500 mt-0.5 ml-2">
-                    🌟 Notable:{" "}
-                    {member.notableWorks
-                      .map((work) =>
-                        work.roles?.length
-                          ? `${work.title} (${work.roles.join(", ")})`
-                          : work.title
-                      )
-                      .join(", ")}
-                  </div>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
+      {Object.entries(grouped).map(
+        ([category, members]) =>
+          members.length > 0 && (
+            <div key={category} className="mb-6">
+              <h4 className="text-lg font-semibold text-gray-700 mb-2">
+                {CATEGORY_ICONS[category] ?? "→"}{" "}
+                {CATEGORY_LABELS[category] ?? category}
+              </h4>
+              <ul className="space-y-2">
+                {members.map((member) => (
+                  <li key={member.id}>
+                    <a
+                      href={member.siteUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-medium text-blue-600 hover:underline"
+                    >
+                      {member.name}
+                    </a>{" "}
+                    <span className="text-sm text-gray-600">
+                      ({member.roles.join(", ")})
+                    </span>
+                    {member.notableWorks.length > 0 && (
+                      <div className="border-l-4 text-sm text-gray-500 mt-0.5 ml-2">
+                        <ul className="ml-2 mt-1 space-y-0.5 text-sm text-gray-600">
+                          {member.notableWorks.map((work) => (
+                            <li key={work.title}>
+                              {work.title} ({work.roles.join(", ")})
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )
+      )}
     </div>
   );
 }

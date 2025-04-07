@@ -19,24 +19,45 @@ export default function AnimeDetailPanel({
 
   useEffect(() => {
     setLoading(true);
-    getAnimeDetails(animeId)
-      .then((result) => {
-        setData(result);
-        setError(null);
-      })
-      .catch((err) => {
-        setError("Failed to fetch anime details.");
-        setData(null);
-        console.error(err);
-      })
-      .finally(() => setLoading(false));
+    let cancelled = false;
+
+    //Stupid fix for Dev, need to remove it or fix it later
+    const timeout = setTimeout(() => {
+      if (cancelled) return;
+
+      setLoading(true);
+      getAnimeDetails(animeId)
+        .then((result) => {
+          if (!cancelled) {
+            setData(result);
+            setError(null);
+          }
+        })
+        .catch((err) => {
+          if (!cancelled) {
+            console.error(err);
+            setError("Failed to fetch anime details.");
+            setData(null);
+          }
+        })
+        .finally(() => {
+          if (!cancelled) {
+            setLoading(false);
+          }
+        });
+    }, 100); // debounce delay
+
+    return () => {
+      cancelled = true;
+      clearTimeout(timeout);
+    };
   }, [animeId]);
 
   return (
     <div className="fixed inset-0 z-50 flex justify-end bg-black/50">
-      <div className="w-full max-w-lg h-full bg-white shadow-xl p-6 overflow-y-auto relative">
+      <div className="w-full max-w-3xl h-full bg-white shadow-xl p-6 overflow-y-auto relative">
         <button
-          className="absolute top-4 right-4 text-gray-600 hover:text-black"
+          className="absolute top-4 right-4 text-xl text-gray-500 hover:text-black p-2 rounded-full hover:bg-gray-100 transition bg-white border border-black-300"
           onClick={onClose}
         >
           ✕

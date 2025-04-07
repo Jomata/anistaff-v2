@@ -25,7 +25,7 @@ export function groupStaffByCategory(
       }
   
       const entry = map.get(person.id)!;
-      entry.roles.push(person.role);
+      entry.roles.push(...person.roles);
   
       for (const work of person.notableWorks) {
         const found = entry.notableWorks.find(w => w.title === work.title);
