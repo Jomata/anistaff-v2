@@ -104,11 +104,13 @@ export default function AnimeDetailPanel({
 
         {anime && (
           <>
-            <img
-              src={anime.bannerImageUrl || anime.coverImageUrlXL}
-              alt={anime.title}
-              className="w-full rounded-lg mb-4"
-            />
+            {anime.bannerImageUrl && (
+              <img
+                src={anime.bannerImageUrl}
+                alt={anime.title}
+                className="w-full rounded-lg mb-4"
+              />
+            )}
             <h2 className="text-2xl font-bold mb-1">{anime.title}</h2>
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
               {anime.season} {anime.seasonYear}
