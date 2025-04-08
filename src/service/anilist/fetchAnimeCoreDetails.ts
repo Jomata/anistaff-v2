@@ -8,7 +8,7 @@ export async function fetchAnimeCoreDetails(id: number): Promise<AnimeCoreDetail
       Media(id: $id, type: ANIME) {
         id
         title { romaji }
-        description
+        description(asHtml: false)
         season
         seasonYear
         genres
@@ -35,7 +35,7 @@ export async function fetchAnimeCoreDetails(id: number): Promise<AnimeCoreDetail
   return {
     id: Media.id,
     title: Media.title.romaji,
-    description: Media.description,
+    description: Media.description.replace(/<[^>]+>/g, ""),
     season: Media.season,
     seasonYear: Media.seasonYear,
     genres: Media.genres,

@@ -113,10 +113,9 @@ export default function AnimeDetailPanel({
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
               {anime.season} {anime.seasonYear}
             </p>
-            <p
-              className="mb-4 prose prose-sm dark:prose-invert"
-              dangerouslySetInnerHTML={{ __html: anime.description ?? "" }}
-            ></p>
+            <p className="mb-4 prose prose-sm dark:prose-invert">
+              {anime.description}
+            </p>
 
             <div className="flex flex-wrap gap-2 mb-6">
               {(anime.genres ?? []).map((g) => (
