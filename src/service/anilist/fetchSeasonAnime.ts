@@ -1,3 +1,4 @@
+import { BasicAnimeCardData } from "@/types";
 import { fetchGraphQL } from "./fetchGraphQL";
 
 interface SeasonAnimeRaw {
@@ -10,16 +11,7 @@ interface SeasonAnimeRaw {
   genres: string[];
 }
 
-export interface SeasonAnimeCardData {
-  id: number;
-  title: string;
-  imageUrl: string;
-  studio: string;
-  description: string;
-  genres: string[];
-}
-
-export async function fetchSeasonAnime(season: string, year: number): Promise<SeasonAnimeCardData[]> {
+export async function fetchSeasonAnime(season: string, year: number): Promise<BasicAnimeCardData[]> {
   const query = `
     query ($season: MediaSeason, $year: Int) {
       Page(perPage: 50) {

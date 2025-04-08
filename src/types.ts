@@ -84,3 +84,11 @@ export interface AnimeCoreDetails {
   bannerImageUrl?: string;
   staffEdges: RawStaff[];
 }
+export interface BasicAnimeCardData {
+  id: number;
+  title: string;
+  imageUrl: string;
+  studio: string;
+  description: string;
+  genres: string[];
+}

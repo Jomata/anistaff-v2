@@ -1,32 +1,18 @@
-import { CleanAnime } from "@/types";
+import { BasicAnimeCardData } from "@/types";
 import { fetchGraphQL } from "./anilist/fetchGraphQL";
 
-export async function getSearchResults(term: string): Promise<CleanAnime[]> {
+export async function getSearchResults(term: string): Promise<BasicAnimeCardData[]> {
   const query = `
     query SearchAnime($term: String) {
       Page(perPage: 10) {
         media(search: $term, type: ANIME, sort: [POPULARITY_DESC]) {
           id
-          title {
-            romaji
-          }
-          description(asHtml: true)
-          coverImage {
-            extraLarge
-            large
-          }
+          title { romaji }
+          coverImage { large, extraLarge }
           bannerImage
+          studios { nodes { name } }
+          description(asHtml: false)
           genres
-          season
-          seasonYear
-          siteUrl
-          studios(isMain: true) {
-            edges {
-              node {
-                name
-              }
-            }
-          }
         }
       }
     }
@@ -38,14 +24,11 @@ export async function getSearchResults(term: string): Promise<CleanAnime[]> {
   return data.Page.media.map((anime) => ({
     id: anime.id,
     title: anime.title.romaji,
-    description: anime.description ?? "",
-    coverImageUrl: anime.coverImage?.large ?? "",
-    coverImageUrlXL: anime.coverImage?.extraLarge ?? "",
-    bannerImageUrl: anime.bannerImage ?? "",
+    imageUrl: anime.coverImage.large,
+    bannerImageUrl: anime.bannerImage,
+    imageUrlXL: anime.coverImage.extraLarge,
+    studio: anime.studios.nodes[0]?.name ?? "Unknown Studio",
+    description: anime.description?.replace(/<[^>]+>/g, "") ?? "No description.",
     genres: anime.genres ?? [],
-    season: anime.season,
-    seasonYear: anime.seasonYear,
-    siteUrl: anime.siteUrl,
-    studio: anime.studios?.edges?.[0]?.node?.name ?? "",
   }));
 }
