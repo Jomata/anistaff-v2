@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/command";
 import { getSearchResults } from "../service/getSearchResults";
 import { BasicAnimeCardData } from "../types";
+import { useDebouncedCallback } from "use-debounce";
 
 interface SearchBarProps {
   onSelect: (anime: BasicAnimeCardData) => void;
@@ -23,8 +24,7 @@ export default function SearchBar({ onSelect }: SearchBarProps) {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  async function handleSearch(term: string) {
-    setSearchTerm(term);
+  const debouncedSearch = useDebouncedCallback(async (term: string) => {
     if (term.length < 3) return;
     setLoading(true);
     try {
@@ -35,6 +35,16 @@ export default function SearchBar({ onSelect }: SearchBarProps) {
       console.error(e);
     } finally {
       setLoading(false);
+    }
+  }, 300);
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const term = e.target.value;
+    setSearchTerm(term);
+    if (term.length >= 3) {
+      debouncedSearch(term);
+    } else {
+      setOpen(false);
     }
   }
 
@@ -52,7 +62,7 @@ export default function SearchBar({ onSelect }: SearchBarProps) {
             className="w-full px-4 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg shadow text-sm"
             placeholder="Search for an anime..."
             value={searchTerm}
-            onChange={(e) => handleSearch(e.target.value)}
+            onChange={handleChange}
           />
         </div>
       </PopoverTrigger>
