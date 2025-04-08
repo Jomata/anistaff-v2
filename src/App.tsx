@@ -40,7 +40,12 @@ function App() {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 relative z-40">
         {/* Left side: Logo + Search */}
         <div className="flex items-center gap-4 flex-1">
-          <h1 className="text-3xl font-bold whitespace-nowrap">AS2</h1>
+          <h1
+            className="text-3xl font-bold whitespace-nowrap"
+            title="AniStaff v2"
+          >
+            <img className="w-16 h-16" src="./AniStaffLogo.png" />
+          </h1>
           <div className="flex-1">
             <SearchBar
               onSelect={(anime) => {
