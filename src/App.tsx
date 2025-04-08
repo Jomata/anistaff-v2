@@ -58,6 +58,12 @@ function App() {
       {selectedAnimeId && (
         <AnimeDetailPanel
           animeId={selectedAnimeId}
+          partialAnime={{
+            season,
+            seasonYear: currentYear,
+            id: selectedAnimeId,
+            ...animeList.find((a) => a.id === selectedAnimeId),
+          }}
           onClose={() => setSelectedAnimeId(null)}
         />
       )}

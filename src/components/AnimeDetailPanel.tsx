@@ -6,11 +6,13 @@ import SharedStaffWorks from "./SharedStaffWorks";
 
 interface AnimeDetailPanelProps {
   animeId: number;
+  partialAnime?: Partial<CleanAnime>;
   onClose: () => void;
 }
 
 export default function AnimeDetailPanel({
   animeId,
+  partialAnime,
   onClose,
 }: AnimeDetailPanelProps) {
   const [data, setData] = useState<CleanAnime | null>(null);
@@ -36,9 +38,7 @@ export default function AnimeDetailPanel({
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [handleClose]);
 
   useEffect(() => {
@@ -74,6 +74,8 @@ export default function AnimeDetailPanel({
     };
   }, [animeId]);
 
+  const anime = data ?? partialAnime;
+
   return (
     <div
       className={`fixed inset-0 z-50 flex justify-end ${
@@ -87,38 +89,37 @@ export default function AnimeDetailPanel({
         }`}
       >
         <button
-          className="absolute top-4 right-4 text-xl text-gray-500 hover:text-black dark:hover:text-white p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700"
+          className="cursor-pointer absolute top-4 right-4 text-xl text-gray-500 hover:text-black dark:hover:text-white p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700"
           onClick={handleClose}
         >
-          ✕
+          ✖
         </button>
 
+        {error && <p className="text-red-500 mt-10">{error}</p>}
         {loading && (
-          <div className="flex justify-center items-center h-full">
+          <div className="absolute inset-0 bg-black/40 flex items-center justify-center z-10 h-full">
             <div className="animate-spin rounded-full h-12 w-12 border-4 border-t-transparent border-blue-500"></div>
           </div>
         )}
 
-        {error && <p className="text-red-500 mt-10">{error}</p>}
-
-        {data && (
+        {anime && (
           <>
             <img
-              src={data.bannerImageUrl || data.coverImageUrlXL}
-              alt={data.title}
+              src={anime.bannerImageUrl || anime.coverImageUrlXL}
+              alt={anime.title}
               className="w-full rounded-lg mb-4"
             />
-            <h2 className="text-2xl font-bold mb-1">{data.title}</h2>
+            <h2 className="text-2xl font-bold mb-1">{anime.title}</h2>
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-              {data.season} {data.seasonYear}
+              {anime.season} {anime.seasonYear}
             </p>
             <p
               className="mb-4 prose prose-sm dark:prose-invert"
-              dangerouslySetInnerHTML={{ __html: data.description }}
+              dangerouslySetInnerHTML={{ __html: anime.description ?? "" }}
             ></p>
 
             <div className="flex flex-wrap gap-2 mb-6">
-              {data.genres.map((g) => (
+              {(anime.genres ?? []).map((g) => (
                 <span
                   key={g}
                   className="bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-100 text-xs px-2 py-1 rounded-full"
@@ -128,10 +129,14 @@ export default function AnimeDetailPanel({
               ))}
             </div>
 
-            <StaffBreakdown
-              groupedStaffByCategory={data.groupedStaffByCategory}
-            />
-            <SharedStaffWorks shared={data.sharedStaffWorks} />
+            {data && (
+              <>
+                <StaffBreakdown
+                  groupedStaffByCategory={data.groupedStaffByCategory}
+                />
+                <SharedStaffWorks shared={data.sharedStaffWorks} />
+              </>
+            )}
           </>
         )}
       </div>
