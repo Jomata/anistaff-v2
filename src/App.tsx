@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import SearchBar from "@/components/SearchBar";
 import SeasonSelector from "./components/SeasonSelector";
 import AnimeCard from "./components/AnimeCard";
 import AnimeDetailPanel from "./components/AnimeDetailPanel";
@@ -6,13 +7,15 @@ import {
   fetchSeasonAnime,
   SeasonAnimeCardData,
 } from "./service/anilist/fetchSeasonAnime";
+import { CleanAnime } from "./types";
 
 function App() {
   const [season, setSeason] = useState<string>("");
-  const [selectedAnimeId, setSelectedAnimeId] = useState<number | null>(null);
   const [animeList, setAnimeList] = useState<SeasonAnimeCardData[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [selectedAnime, setSelectedAnime] =
+    useState<Partial<CleanAnime> | null>(null);
 
   const currentYear = new Date().getFullYear();
 
@@ -35,12 +38,15 @@ function App() {
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
-      <h1 className="text-3xl font-bold mb-4">AniStaff v2</h1>
+      <h1 className="text-3xl font-bold">AniStaff v2</h1>
+
+      <SearchBar
+        onSelect={(anime) => {
+          setSelectedAnime(anime);
+        }}
+      />
 
       <SeasonSelector year={currentYear} onSelect={(s) => setSeason(s)} />
-      {/* <p className="mt-4 text-gray-600 mb-6">
-        Selected season: <strong>{season}</strong> {currentYear}
-      </p> */}
 
       {loading && <p className="text-gray-500 mt-6">Loading anime list...</p>}
       {error && <p className="text-red-500 mt-6">{error}</p>}
@@ -50,21 +56,20 @@ function App() {
           <AnimeCard
             key={anime.id}
             {...anime}
-            onClick={() => setSelectedAnimeId(anime.id)}
+            onClick={() => setSelectedAnime(anime)}
           />
         ))}
       </div>
 
-      {selectedAnimeId && (
+      {selectedAnime && (
         <AnimeDetailPanel
-          animeId={selectedAnimeId}
+          animeId={selectedAnime.id!}
           partialAnime={{
             season,
             seasonYear: currentYear,
-            id: selectedAnimeId,
-            ...animeList.find((a) => a.id === selectedAnimeId),
+            ...selectedAnime,
           }}
-          onClose={() => setSelectedAnimeId(null)}
+          onClose={() => setSelectedAnime(null)}
         />
       )}
     </div>
