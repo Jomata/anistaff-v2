@@ -1,9 +1,9 @@
 import { StaffWork } from "../types";
 
-export function extractTopWorks(works: StaffWork[], max = 4): StaffWork[] {
+export function extractTopWorks(works: StaffWork[], max = 5): StaffWork[] {
   if (works.length <= max) return works;
 
-  const top = works.slice(0, 2);
+  const top = works.slice(0, 3);
   const recent = [...works]
     .filter((w) => w.date)
     .sort((a, b) => (b.date ?? "").localeCompare(a.date ?? ""))
