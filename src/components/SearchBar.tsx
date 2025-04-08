@@ -66,7 +66,7 @@ export default function SearchBar({ onSelect }: SearchBarProps) {
           />
         </div>
       </PopoverTrigger>
-      <PopoverContent className="w-[400px] max-h-96 overflow-y-auto p-0 z-50">
+      <PopoverContent className="w-[450px] max-h-96 overflow-y-auto p-0 z-50">
         <Command className="bg-white dark:bg-gray-900 border-none">
           <CommandList>
             {loading && (
