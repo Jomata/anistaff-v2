@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/command";
 import { getSearchResults } from "../service/getSearchResults";
 import { BasicAnimeCardData } from "../types";
-import { useDebouncedCallback } from "use-debounce";
+import { useDebouncedCallback } from "@react-hookz/web";
 
 interface SearchBarProps {
   onSelect: (anime: BasicAnimeCardData) => void;
@@ -24,33 +24,32 @@ export default function SearchBar({ onSelect }: SearchBarProps) {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const debouncedSearch = useDebouncedCallback(async (term: string) => {
-    if (term.length < 3) return;
-    setLoading(true);
-    try {
-      const res = await getSearchResults(term);
-      setResults(res);
-      setOpen(true);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setLoading(false);
-    }
-  }, 300);
+  const debouncedSearch = useDebouncedCallback(
+    async (term: string) => {
+      if (term.length < 3) return;
+
+      setLoading(true);
+      try {
+        const res = await getSearchResults(term);
+        setResults(res);
+        setOpen(true);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [setResults, setLoading, setOpen],
+    300
+  );
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const term = e.target.value;
-    setSearchTerm(term);
-    if (term.length >= 3) {
-      debouncedSearch(term);
-    } else {
-      setOpen(false);
-    }
+    setSearchTerm(e.target.value);
+    debouncedSearch(e.target.value);
   }
 
   function handleSelect(anime: BasicAnimeCardData) {
     onSelect(anime);
-    setSearchTerm("");
     setOpen(false);
   }
 
