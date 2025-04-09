@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Popover,
   PopoverTrigger,
@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/command";
 import { getSearchResults } from "../service/getSearchResults";
 import { BasicAnimeCardData } from "../types";
-import { useDebouncedCallback } from "@react-hookz/web";
+import { useAsync, useDebouncedCallback } from "@react-hookz/web";
 
 interface SearchBarProps {
   onSelect: (anime: BasicAnimeCardData) => void;
@@ -21,32 +21,37 @@ interface SearchBarProps {
 export default function SearchBar({ onSelect }: SearchBarProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [results, setResults] = useState<BasicAnimeCardData[]>([]);
-  const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const minSearchLength = 3;
 
-  const debouncedSearch = useDebouncedCallback(
-    async (term: string) => {
-      if (term.length < minSearchLength) return;
+  const [searchState, { execute }] = useAsync(
+    async (term: string): Promise<BasicAnimeCardData[]> => {
+      return await getSearchResults(term);
+    },
+    undefined
+  );
 
-      setLoading(true);
-      try {
-        const res = await getSearchResults(term);
-        setResults(res);
-        setOpen(true);
-        requestAnimationFrame(() => {
-          inputRef.current?.focus();
-        });
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setLoading(false);
+  const debouncedSearch = useDebouncedCallback(
+    (term: string) => {
+      if (term.length >= minSearchLength) {
+        execute(term);
+      } else {
+        setOpen(false); // Close popover if term is too short
       }
     },
-    [setResults, setLoading, setOpen],
+    [execute],
     500
   );
+
+  // When results change, open the results + refocus
+  useEffect(() => {
+    if (searchState.result) {
+      setOpen(true);
+      requestAnimationFrame(() => {
+        inputRef.current?.focus();
+      });
+    }
+  }, [searchState.result]);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setSearchTerm(e.target.value);
@@ -71,17 +76,17 @@ export default function SearchBar({ onSelect }: SearchBarProps) {
           />
         </div>
       </PopoverTrigger>
-      {results.length > 0 && (
+      {searchState?.result && searchState?.result.length > 0 && (
         <PopoverContent className="w-[450px] max-h-96 overflow-y-auto p-0 z-50">
           <Command className="bg-white dark:bg-gray-900 border-none">
             <CommandList>
-              {loading && (
+              {searchState.status === "loading" && (
                 <div className="px-4 py-2 text-sm text-gray-500">
                   Loading...
                 </div>
               )}
               <CommandEmpty>No results found.</CommandEmpty>
-              {results.map((anime) => (
+              {searchState.result.map((anime) => (
                 <CommandItem
                   key={anime.id}
                   onSelect={() => handleSelect(anime)}
