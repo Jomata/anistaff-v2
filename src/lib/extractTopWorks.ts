@@ -7,8 +7,8 @@ export function extractTopWorks(works: StaffWork[], max = 5): StaffWork[] {
   const recent = [...works]
     .filter((w) => w.date)
     .sort((a, b) => (b.date ?? "").localeCompare(a.date ?? ""))
-    .slice(0, 2);
-
+    .slice(0, 3);
+  
   const seen = new Set<number>();
   const combined: StaffWork[] = [];
 
