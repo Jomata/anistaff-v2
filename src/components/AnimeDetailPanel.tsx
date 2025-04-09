@@ -3,6 +3,7 @@ import { getAnimeDetails } from "../service/getAnimeDetails";
 import { CleanAnime } from "../types";
 import StaffBreakdown from "./StaffBreakdown";
 import SharedStaffWorks from "./SharedStaffWorks";
+import { useAsync, useDebouncedCallback } from "@react-hookz/web";
 
 interface AnimeDetailPanelProps {
   animeId: number;
@@ -15,9 +16,22 @@ export default function AnimeDetailPanel({
   partialAnime,
   onClose,
 }: AnimeDetailPanelProps) {
-  const [data, setData] = useState<CleanAnime | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [state, { execute }] = useAsync(
+    async (id: number): Promise<CleanAnime> => {
+      return await getAnimeDetails(id);
+    }
+  );
+  const debouncedFetch = useDebouncedCallback(
+    (id: number) => {
+      execute(id);
+    },
+    [execute],
+    100
+  );
+  useEffect(() => {
+    if (animeId) debouncedFetch(animeId);
+  }, [animeId, debouncedFetch]);
+
   const [visible, setVisible] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
 
@@ -41,40 +55,9 @@ export default function AnimeDetailPanel({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [handleClose]);
 
-  useEffect(() => {
-    let cancelled = false;
-    const timeout = setTimeout(() => {
-      if (cancelled) return;
-
-      setLoading(true);
-      getAnimeDetails(animeId)
-        .then((result) => {
-          if (!cancelled) {
-            setData(result);
-            setError(null);
-          }
-        })
-        .catch((err) => {
-          if (!cancelled) {
-            console.error(err);
-            setError("Failed to fetch anime details.");
-            setData(null);
-          }
-        })
-        .finally(() => {
-          if (!cancelled) {
-            setLoading(false);
-          }
-        });
-    }, 100);
-
-    return () => {
-      cancelled = true;
-      clearTimeout(timeout);
-    };
-  }, [animeId]);
-
-  const anime = data ?? partialAnime;
+  const loading = state.status === "loading";
+  const error = state.error;
+  const anime = state.result ?? partialAnime;
 
   return (
     <div
@@ -95,7 +78,7 @@ export default function AnimeDetailPanel({
           ✖
         </button>
 
-        {error && <p className="text-red-500 mt-10">{error}</p>}
+        {error && <p className="text-red-500 mt-10">{error.message}</p>}
         {loading && (
           <div className="absolute inset-0 bg-black/40 flex items-center justify-center z-10 h-full">
             <div className="animate-spin rounded-full h-12 w-12 border-4 border-t-transparent border-blue-500"></div>
@@ -130,13 +113,14 @@ export default function AnimeDetailPanel({
               ))}
             </div>
 
-            {data && (
-              <>
-                <StaffBreakdown
-                  groupedStaffByCategory={data.groupedStaffByCategory}
-                />
-                <SharedStaffWorks shared={data.sharedStaffWorks} />
-              </>
+            {anime.groupedStaffByCategory && (
+              <StaffBreakdown
+                groupedStaffByCategory={anime.groupedStaffByCategory}
+              />
+            )}
+
+            {anime.sharedStaffWorks && (
+              <SharedStaffWorks shared={anime.sharedStaffWorks} />
             )}
           </>
         )}
