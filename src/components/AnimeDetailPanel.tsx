@@ -112,7 +112,7 @@ export default function AnimeDetailPanel({
               />
             )}
             <h2 className="text-2xl font-bold mb-1">{anime.title}</h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-2 uppercase">
               {anime.season} {anime.seasonYear}
             </p>
             <p className="mb-4 prose prose-sm dark:prose-invert">

@@ -91,4 +91,6 @@ export interface BasicAnimeCardData {
   studio: string;
   description: string;
   genres: string[];
+  season?: string;
+  seasonYear?: number;
 }
