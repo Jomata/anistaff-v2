@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Popover,
   PopoverTrigger,
@@ -19,20 +19,25 @@ interface SearchBarProps {
 }
 
 export default function SearchBar({ onSelect }: SearchBarProps) {
+  const inputRef = useRef<HTMLInputElement>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState<BasicAnimeCardData[]>([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const minSearchLength = 3;
 
   const debouncedSearch = useDebouncedCallback(
     async (term: string) => {
-      if (term.length < 3) return;
+      if (term.length < minSearchLength) return;
 
       setLoading(true);
       try {
         const res = await getSearchResults(term);
         setResults(res);
         setOpen(true);
+        requestAnimationFrame(() => {
+          inputRef.current?.focus();
+        });
       } catch (e) {
         console.error(e);
       } finally {
@@ -62,38 +67,43 @@ export default function SearchBar({ onSelect }: SearchBarProps) {
             placeholder="Search for an anime..."
             value={searchTerm}
             onChange={handleChange}
+            ref={inputRef}
           />
         </div>
       </PopoverTrigger>
-      <PopoverContent className="w-[450px] max-h-96 overflow-y-auto p-0 z-50">
-        <Command className="bg-white dark:bg-gray-900 border-none">
-          <CommandList>
-            {loading && (
-              <div className="px-4 py-2 text-sm text-gray-500">Loading...</div>
-            )}
-            <CommandEmpty>No results found.</CommandEmpty>
-            {results.map((anime) => (
-              <CommandItem
-                key={anime.id}
-                onSelect={() => handleSelect(anime)}
-                className="flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800"
-              >
-                <img
-                  src={anime.imageUrl}
-                  alt={anime.title}
-                  className="w-10 h-14 object-cover rounded"
-                />
-                <div className="flex flex-col">
-                  <p className="font-medium">{anime.title}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {anime.seasonYear}
-                  </p>
+      {searchTerm.length >= minSearchLength && (
+        <PopoverContent className="w-[450px] max-h-96 overflow-y-auto p-0 z-50">
+          <Command className="bg-white dark:bg-gray-900 border-none">
+            <CommandList>
+              {loading && (
+                <div className="px-4 py-2 text-sm text-gray-500">
+                  Loading...
                 </div>
-              </CommandItem>
-            ))}
-          </CommandList>
-        </Command>
-      </PopoverContent>
+              )}
+              <CommandEmpty>No results found.</CommandEmpty>
+              {results.map((anime) => (
+                <CommandItem
+                  key={anime.id}
+                  onSelect={() => handleSelect(anime)}
+                  className="flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800"
+                >
+                  <img
+                    src={anime.imageUrl}
+                    alt={anime.title}
+                    className="w-10 h-14 object-cover rounded"
+                  />
+                  <div className="flex flex-col">
+                    <p className="font-medium">{anime.title}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {anime.seasonYear}
+                    </p>
+                  </div>
+                </CommandItem>
+              ))}
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      )}
     </Popover>
   );
 }
