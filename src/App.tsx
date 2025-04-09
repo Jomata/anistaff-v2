@@ -6,35 +6,30 @@ import AnimeDetailPanel from "./components/AnimeDetailPanel";
 import { fetchSeasonAnime } from "./service/anilist/fetchSeasonAnime";
 import { BasicAnimeCardData } from "./types";
 import { useHash } from "./components/hooks/useHash";
+import { useAsync } from "@react-hookz/web";
 
 function App() {
   const [season, setSeason] = useState<string>("");
-  const [animeList, setAnimeList] = useState<BasicAnimeCardData[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [state, { execute }, meta] = useAsync(
+    async (season: string, year: number) =>
+      await fetchSeasonAnime(season, year),
+    []
+  );
   const [selectedAnime, setSelectedAnime] = useState<
     (Pick<BasicAnimeCardData, "id"> & Partial<BasicAnimeCardData>) | null
   >(null);
-  const [animeIdFromHash, setHashAnimeId, clearHashAnimeId] = useHash("anime");
 
+  const [animeIdFromHash, setHashAnimeId, clearHashAnimeId] = useHash("anime");
   const currentYear = new Date().getFullYear();
 
   useEffect(() => {
-    if (!season) return;
-
-    setLoading(true);
-    fetchSeasonAnime(season, currentYear)
-      .then((data) => {
-        setAnimeList(data);
-        setError(null);
-      })
-      .catch((err) => {
-        setError("Failed to load seasonal anime.");
-        setAnimeList([]);
-        console.error(err);
-      })
-      .finally(() => setLoading(false));
-  }, [season]);
+    if (season) {
+      execute(season, currentYear);
+    }
+  }, [season, execute]);
+  const loading = state.status === "loading";
+  const animeList = state.status === "success" ? state.result ?? [] : [];
+  const error = state.error;
 
   // When animeId changes via URL hash, open the details panel
   useEffect(() => {
