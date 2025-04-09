@@ -45,7 +45,7 @@ export default function SearchBar({ onSelect }: SearchBarProps) {
       }
     },
     [setResults, setLoading, setOpen],
-    300
+    500
   );
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -71,7 +71,7 @@ export default function SearchBar({ onSelect }: SearchBarProps) {
           />
         </div>
       </PopoverTrigger>
-      {searchTerm.length >= minSearchLength && (
+      {results.length > 0 && (
         <PopoverContent className="w-[450px] max-h-96 overflow-y-auto p-0 z-50">
           <Command className="bg-white dark:bg-gray-900 border-none">
             <CommandList>
