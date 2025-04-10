@@ -13,6 +13,8 @@ export async function getSearchResults(term: string): Promise<BasicAnimeCardData
           studios { nodes { name } }
           description(asHtml: false)
           genres
+          season
+          seasonYear
         }
       }
     }
@@ -30,5 +32,7 @@ export async function getSearchResults(term: string): Promise<BasicAnimeCardData
     studio: anime.studios.nodes[0]?.name ?? "Unknown Studio",
     description: anime.description?.replace(/<[^>]+>/g, "") ?? "No description.",
     genres: anime.genres ?? [],
+    season: anime.season,
+    seasonYear: anime.seasonYear,
   }));
 }
