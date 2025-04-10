@@ -84,6 +84,7 @@ export interface AnimeCoreDetails {
   bannerImageUrl?: string;
   staffEdges: RawStaff[];
 }
+
 export interface BasicAnimeCardData {
   id: number;
   title: string;
@@ -94,3 +95,6 @@ export interface BasicAnimeCardData {
   season?: string;
   seasonYear?: number;
 }
+
+const seasons = ["Winter", "Spring", "Summer", "Fall"] as const;
+export type Season = (typeof seasons)[number];

@@ -4,14 +4,14 @@ import SeasonSelector from "./components/SeasonSelector";
 import AnimeCard from "./components/AnimeCard";
 import AnimeDetailPanel from "./components/AnimeDetailPanel";
 import { fetchSeasonAnime } from "./service/anilist/fetchSeasonAnime";
-import { BasicAnimeCardData } from "./types";
+import { BasicAnimeCardData, Season } from "./types";
 import { useHash } from "./components/hooks/useHash";
 import { useAsync } from "@react-hookz/web";
 
 function App() {
-  const [season, setSeason] = useState<string>("");
-  const [state, { execute }, meta] = useAsync(
-    async (season: string, year: number) =>
+  const [season, setSeason] = useState<Season | undefined>();
+  const [state, { execute }] = useAsync(
+    async (season: Season, year: number) =>
       await fetchSeasonAnime(season, year),
     []
   );

@@ -1,7 +1,7 @@
+import { Season } from "@/types";
 import React, { useState, useEffect } from "react";
 
 const seasons = ["Winter", "Spring", "Summer", "Fall"] as const;
-type Season = (typeof seasons)[number];
 
 function getUpcomingSeason(): Season {
   const month = new Date().getMonth(); // 0-based
