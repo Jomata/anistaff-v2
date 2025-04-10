@@ -28,6 +28,7 @@ export function categorizeStaffRole(role: string): StaffCategory | null {
 
   // Visual staff
   if (
+    normalized.includes("animator") ||
     normalized.includes("animation") ||
     normalized.includes("storyboard") ||
     normalized.includes("character design") ||
