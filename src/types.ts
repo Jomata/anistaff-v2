@@ -52,6 +52,7 @@ export interface CleanAnime {
   description: string;
   season: string;
   seasonYear: number;
+  siteUrl: string;
   tags: string[];
   genres: string[];
   trailerUrl?: string;
@@ -77,6 +78,7 @@ export interface AnimeCoreDetails {
   season: string;
   seasonYear: number;
   tags: string[];
+  siteUrl: string;
   genres: string[];
   trailerUrl?: string;
   coverImageUrl?: string;
@@ -94,6 +96,7 @@ export interface BasicAnimeCardData {
   genres: string[];
   season?: string;
   seasonYear?: number;
+  siteUrl: string;
 }
 
 const seasons = ["Winter", "Spring", "Summer", "Fall"] as const;

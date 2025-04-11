@@ -5,6 +5,7 @@ export interface AniListMedia {
   season: "WINTER" | "SPRING" | "SUMMER" | "FALL";
   seasonYear: number;
   genres: string[];
+  siteUrl: string;
   tags: { name: string }[];
   trailer?: { id: string; site: string } | null;
   coverImage?: { large: string; extraLarge:string; } | null;

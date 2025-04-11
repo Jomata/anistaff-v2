@@ -94,7 +94,11 @@ export default function AnimeDetailPanel({
                 className="w-full rounded-lg mb-4"
               />
             )}
-            <h2 className="text-2xl font-bold mb-1">{anime.title}</h2>
+            <h2 className="text-2xl font-bold mb-1">
+              <a href={anime.siteUrl} target="_blank">
+                {anime.title}
+              </a>
+            </h2>
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-2 uppercase">
               {anime.season} {anime.seasonYear}
             </p>

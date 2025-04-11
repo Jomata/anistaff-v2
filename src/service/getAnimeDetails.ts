@@ -26,6 +26,7 @@ export async function getAnimeDetails(animeId: number): Promise<CleanAnime> {
     seasonYear: coreData.seasonYear,
     genres: coreData.genres,
     tags: coreData.tags,
+    siteUrl: coreData.siteUrl,
     trailerUrl: coreData.trailerUrl,
     coverImageUrl: coreData.coverImageUrl,
     coverImageUrlXL: coreData.coverImageUrlXL,

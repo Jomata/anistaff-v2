@@ -15,6 +15,7 @@ export async function getSearchResults(term: string): Promise<BasicAnimeCardData
           genres
           season
           seasonYear
+          siteUrl
         }
       }
     }
@@ -34,5 +35,6 @@ export async function getSearchResults(term: string): Promise<BasicAnimeCardData
     genres: anime.genres ?? [],
     season: anime.season,
     seasonYear: anime.seasonYear,
+    siteUrl: anime.siteUrl,
   }));
 }
