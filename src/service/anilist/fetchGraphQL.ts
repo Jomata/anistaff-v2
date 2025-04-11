@@ -23,9 +23,12 @@ export async function fetchGraphQL<T>(
   const key = getCacheKey(query, variables);
   const now = Date.now();
 
+  console.debug("Fetching GraphQL data:", { query, variables });
+
   // 1. Memory Cache
   const memoryEntry = memoryCache.get(key);
   if (memoryEntry && memoryEntry.data as T && now - memoryEntry.timestamp < TTL_MS) {
+    console.debug("Cache hit in memory:", { key });
     return Promise.resolve(memoryEntry.data as T);
   }
 
@@ -35,6 +38,7 @@ export async function fetchGraphQL<T>(
     try {
       const localEntry = JSON.parse(localEntryRaw) as {data:T, timestamp:number} ;
       if (localEntry?.data as T && now - localEntry.timestamp < TTL_MS) {
+        console.debug("Cache hit in localStorage:", { key });
         memoryCache.set(key, localEntry);
         return Promise.resolve(localEntry.data);
       }
@@ -44,6 +48,7 @@ export async function fetchGraphQL<T>(
   }
 
   // 3. Fallback to network request
+  console.debug("Cache miss, fetching from network:", { key });
   const result = await limiter.schedule(async () => {
     const res = await fetch("https://graphql.anilist.co", {
       method: "POST",

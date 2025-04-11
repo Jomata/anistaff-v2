@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { getAnimeDetails } from "../service/getAnimeDetails";
 import { CleanAnime } from "../types";
 import StaffBreakdown from "./StaffBreakdown";

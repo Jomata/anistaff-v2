@@ -1,4 +1,3 @@
-import React from "react";
 import { GroupedStaffEntry, StaffCategory } from "../types";
 
 interface Props {
@@ -30,8 +29,8 @@ export default function StaffBreakdown({ groupedStaffByCategory }: Props) {
           members.length > 0 && (
             <div key={category} className="mb-6">
               <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-100 mb-2">
-                {CATEGORY_ICONS[category] ?? "→"}{" "}
-                {CATEGORY_LABELS[category] ?? category}
+                {CATEGORY_ICONS[category as StaffCategory] ?? "→"}{" "}
+                {CATEGORY_LABELS[category as StaffCategory] ?? category}
               </h4>
               <ul className="space-y-2">
                 {members

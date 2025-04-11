@@ -80,7 +80,7 @@ function App() {
         </div>
       )}
 
-      {error && <p className="text-red-500 mt-6">{error}</p>}
+      {error && <p className="text-red-500 mt-6">{error.message}</p>}
 
       <div className="grid gap-6 grid-cols-[repeat(auto-fit,_minmax(240px,_1fr))]">
         {animeList.map((anime) => (
