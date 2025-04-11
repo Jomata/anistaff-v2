@@ -45,7 +45,14 @@ export default function SharedStaffWorks({ shared }: Props) {
                     key={person.id}
                     className="border-l-4 border-blue-500 pl-2"
                   >
-                    {person.name} — {person.roles.join(", ")}
+                    <a
+                      href={person.siteUrl}
+                      target="_blank"
+                      className="hover:underline"
+                    >
+                      {person.name}
+                    </a>{" "}
+                    — {person.roles.join(", ")}
                   </li>
                 ))}
             </ul>

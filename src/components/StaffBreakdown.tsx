@@ -58,7 +58,14 @@ export default function StaffBreakdown({ groupedStaffByCategory }: Props) {
                                   key={work.title}
                                   className="border-l-4 border-blue-500 pl-2"
                                 >
-                                  {work.title} ({work.roles.sort().join(", ")})
+                                  <a
+                                    href={work.siteUrl}
+                                    target="_blank"
+                                    className="hover:underline"
+                                  >
+                                    {work.title}
+                                  </a>{" "}
+                                  ({work.roles.sort().join(", ")})
                                 </li>
                               ))}
                           </ul>

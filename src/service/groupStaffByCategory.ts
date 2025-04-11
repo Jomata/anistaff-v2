@@ -32,7 +32,7 @@ export function groupStaffByCategory(
         if (found) {
           found.roles.push(work.role);
         } else {
-          entry.notableWorks.push({ title: work.title, roles: [work.role] });
+          entry.notableWorks.push({ ...work, roles: [work.role] });
         }
       }
     }
@@ -52,6 +52,7 @@ export function groupStaffByCategory(
         roles: [...new Set(entry.roles)],
         notableWorks: entry.notableWorks.map((w) => ({
           title: w.title,
+          siteUrl: w.siteUrl,
           roles: [...new Set(w.roles)],
         })),
       }));

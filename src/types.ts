@@ -30,6 +30,7 @@ export interface GroupedStaffEntry {
   roles: string[]; // all roles for this person
   notableWorks: {
     title: string;
+    siteUrl: string;
     roles: string[]; // all roles the person had in that anime
   }[];
 }
