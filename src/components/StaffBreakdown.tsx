@@ -34,32 +34,39 @@ export default function StaffBreakdown({ groupedStaffByCategory }: Props) {
                 {CATEGORY_LABELS[category] ?? category}
               </h4>
               <ul className="space-y-2">
-                {members.map((member) => (
-                  <li key={member.id}>
-                    <a
-                      href={member.siteUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-medium text-blue-600 dark:text-blue-400 hover:underline"
-                    >
-                      {member.name}
-                    </a>{" "}
-                    <span className="text-sm text-gray-600 dark:text-gray-300">
-                      ({member.roles.join(", ")})
-                    </span>
-                    {member.notableWorks.length > 0 && (
-                      <div className="border-l-4 border-blue-500 text-sm text-gray-500 dark:text-gray-300 mt-0.5 ml-2">
-                        <ul className="ml-2 mt-1 space-y-0.5">
-                          {member.notableWorks.map((work) => (
-                            <li key={work.title}>
-                              {work.title} ({work.roles.join(", ")})
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </li>
-                ))}
+                {members
+                  .sort((a, b) => a.name.localeCompare(b.name))
+                  .map((member) => (
+                    <li key={member.id}>
+                      <a
+                        href={member.siteUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-medium text-blue-600 dark:text-blue-400 hover:underline"
+                      >
+                        {member.name}
+                      </a>{" "}
+                      <span className="text-sm text-gray-600 dark:text-gray-300">
+                        ({member.roles.join(", ")})
+                      </span>
+                      {member.notableWorks.length > 0 && (
+                        <div className="mt-0.5">
+                          <ul className="ml-2 mt-1 space-y-0.5 text-sm text-gray-600 dark:text-gray-300 ">
+                            {member.notableWorks
+                              .sort((a, b) => a.title.localeCompare(b.title))
+                              .map((work) => (
+                                <li
+                                  key={work.title}
+                                  className="border-l-4 border-blue-500 pl-2"
+                                >
+                                  {work.title} ({work.roles.sort().join(", ")})
+                                </li>
+                              ))}
+                          </ul>
+                        </div>
+                      )}
+                    </li>
+                  ))}
               </ul>
             </div>
           )
