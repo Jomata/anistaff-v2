@@ -44,9 +44,10 @@ export function categorizeStaffRole(role: string): StaffCategory | null {
 
   // Writing & creative lead
   if (
+    normalized.includes("story") ||
     normalized.includes("script") ||
     normalized.includes("composition") ||
-    normalized === "original creator"
+    normalized.includes("original creator")
   ) {
     return "creative";
   }
