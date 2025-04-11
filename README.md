@@ -1,54 +1,61 @@
-# React + TypeScript + Vite
+# AniStaff v2
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+AniStaff v2 is an anime staff analyzer and season preview tool powered by the [AniList GraphQL API](https://docs.anilist.co).  
+It helps you discover the creative teams behind your favorite anime — including directors, composers, writers, and more — and highlights other works they’ve contributed to.
 
-Currently, two official plugins are available:
+## ✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🗓 **Seasonal Anime Preview**: Browse current and upcoming anime by season.
+- 🔍 **Search**: Find anime by title and explore its staff details.
+- 👥 **Staff Breakdown**: Grouped by category (Creative, Visual, Audio, etc.), with notable past works for each staff member.
+- 🤝 **Shared Staff Analyzer**: See what other anime share creators with your selected show.
+- 🔗 **Shareable URLs**: Link directly to a specific anime via hash-based routing.
 
-## Expanding the ESLint configuration
+## 🚀 Try it out
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Deployed to GitHub Pages at:  
+[https://jomata.github.io/anistaff-v2](https://jomata.github.io/anistaff-v2)
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## 🛠 Tech Stack
+
+- ⚡️ [Vite](https://vitejs.dev/) + [React](https://reactjs.org/) + [TypeScript](https://www.typescriptlang.org/)
+- 💅 [Tailwind CSS](https://tailwindcss.com/) + [shadcn/ui](https://ui.shadcn.com/)
+- 📦 State: Custom React hooks + react-hookz
+- 🚀 API: [AniList GraphQL API](https://docs.anilist.co)
+- ⛔️ Rate-limiting: [Bottleneck](https://www.npmjs.com/package/bottleneck) + local caching with TTL
+
+## 🧪 Development
+
+```bash
+# Install dependencies
+npm install
+
+# Run in development mode
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📡 Deployment
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+This app is deployed using GitHub Pages. After running `npm run build`, the `dist/` directory is published using the `vite-plugin-gh-pages` plugin.
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## 🙏 Acknowledgments
+
+Anime data and staff info provided by AniList
+
+Built with ❤️ by [@Jomata](https://github.com/Jomata)
+
+## 📄 License
+
+This project is licensed under the GNU GPL v3. See the LICENSE file for details.
+
+## 🧠 Future Ideas
+
+- Staff customization options (i.e. only track whatever you care about)
+- Filters and sort options for seasonal view
+- Optimize GraphQL querying
