@@ -23,7 +23,12 @@ export default function SharedStaffWorks({ shared }: Props) {
               >
                 {work.title}
               </a>{" "}
-              ({work.sharedStaff.length} people)
+              <span
+                className="text-xs bg-gray-200 text-gray-700 rounded-full px-2 py-0.5"
+                title={`${work.sharedStaff.length} shared staff`}
+              >
+                {work.sharedStaff.length}
+              </span>
             </h4>
             <ul className="ml-2 mt-1 space-y-0.5 text-sm text-gray-600 dark:text-gray-300 border-l-4 border-blue-500 pl-2">
               {work.sharedStaff.map((person) => (
