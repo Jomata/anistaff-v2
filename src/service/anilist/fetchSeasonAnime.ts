@@ -4,6 +4,7 @@ import { fetchGraphQL } from "./fetchGraphQL";
 interface SeasonAnimeRaw {
   id: number;
   title: { romaji: string };
+  siteUrl: string;
   coverImage: { large: string; extraLarge: string };
   bannerImage: string;
   studios: { nodes: { name: string }[] };
@@ -22,6 +23,7 @@ export async function fetchSeasonAnime(season: Season, year: number): Promise<Ba
           bannerImage
           studios { nodes { name } }
           description(asHtml: false)
+          siteUrl
           genres
         }
         pageInfo {
@@ -57,6 +59,7 @@ export async function fetchSeasonAnime(season: Season, year: number): Promise<Ba
     const mapped = rawList.map((anime) => ({
       id: anime.id,
       title: anime.title.romaji,
+      siteUrl: anime.siteUrl,
       imageUrl: anime.coverImage.large,
       bannerImageUrl: anime.bannerImage,
       imageUrlXL: anime.coverImage.extraLarge,
