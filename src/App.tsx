@@ -105,6 +105,17 @@ function App() {
           onClose={() => handleAnimeClose()}
         />
       )}
+
+      <p className="text-xs text-center text-gray-500 mt-8">
+        Data provided by{" "}
+        <a
+          href="https://anilist.co"
+          target="_blank"
+          className="text-blue-500 underline"
+        >
+          AniList
+        </a>
+      </p>
     </div>
   );
 }
