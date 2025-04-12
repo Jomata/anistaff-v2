@@ -42,7 +42,7 @@ export async function fetchAnimeCoreDetails(id: number): Promise<AnimeCoreDetail
     genres: Media.genres,
     siteUrl: Media.siteUrl,
     tags: Media.tags.map((t) => t.name),
-    trailerUrl: Media.trailer?.site === "youtube" ? `https://www.youtube.com/watch?v=${Media.trailer.id}` : undefined,
+    trailerUrl: Media.trailer?.site === "youtube" ? `https://www.youtube.com/embed/${Media.trailer.id}` : undefined,
     coverImageUrl: Media.coverImage?.large,
     coverImageUrlXL: Media.coverImage?.extraLarge,
     bannerImageUrl: Media.bannerImage,

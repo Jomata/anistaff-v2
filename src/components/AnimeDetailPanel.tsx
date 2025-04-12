@@ -133,6 +133,24 @@ export default function AnimeDetailPanel({
               ))}
             </div>
 
+            {anime?.trailerUrl && (
+              <details className="group mt-6 border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden transition-all">
+                <summary className="bg-gray-100 dark:bg-gray-800 px-4 py-2 cursor-pointer text-blue-600 dark:text-blue-400 font-medium select-none group-open:rounded-b-none hover:bg-gray-200 dark:hover:bg-gray-700">
+                  🎬 Watch Trailer
+                </summary>
+                <div className="p-4 bg-white dark:bg-gray-900 border-t border-gray-300 dark:border-gray-700">
+                  <div className="aspect-video w-full">
+                    <iframe
+                      className="w-full h-full rounded"
+                      src={anime.trailerUrl}
+                      title={`${anime.title} Trailer`}
+                      allowFullScreen
+                    />
+                  </div>
+                </div>
+              </details>
+            )}
+
             {anime.groupedStaffByCategory && (
               <StaffBreakdown
                 groupedStaffByCategory={anime.groupedStaffByCategory}

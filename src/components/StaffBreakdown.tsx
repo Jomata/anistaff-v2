@@ -17,7 +17,7 @@ const CATEGORY_LABELS: Record<StaffCategory, string> = {
 };
 
 const CATEGORY_ICONS: Record<StaffCategory, string> = {
-  creative: "🎬",
+  creative: "✍️",
   visual: "🎨",
   audio: "🎵",
   "theme-song": "🎤",
