@@ -21,6 +21,7 @@ export default function AnimeDetailPanel({
       return await getAnimeDetails(id);
     }
   );
+
   const debouncedFetch = useDebouncedCallback(
     (id: number) => {
       execute(id);
@@ -28,6 +29,7 @@ export default function AnimeDetailPanel({
     [execute],
     100
   );
+
   useEffect(() => {
     if (animeId) debouncedFetch(animeId);
   }, [animeId, debouncedFetch]);
@@ -58,6 +60,20 @@ export default function AnimeDetailPanel({
   const loading = state.status === "loading";
   const error = state.error;
   const anime = state.result ?? partialAnime;
+
+  const [hoveredStaffId, setHoveredStaffId] = useState<number | null>(null);
+  const [focusedStaffIds, setFocusedStaffIds] = useState<Set<number>>(
+    new Set()
+  );
+
+  const toggleFocus = (id: number) => {
+    setFocusedStaffIds((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) newSet.delete(id);
+      else newSet.add(id);
+      return newSet;
+    });
+  };
 
   return (
     <div
@@ -120,11 +136,21 @@ export default function AnimeDetailPanel({
             {anime.groupedStaffByCategory && (
               <StaffBreakdown
                 groupedStaffByCategory={anime.groupedStaffByCategory}
+                hoveredStaffId={hoveredStaffId}
+                focusedStaffIds={focusedStaffIds}
+                onHoverStaff={setHoveredStaffId}
+                onToggleFocus={toggleFocus}
               />
             )}
 
             {anime.sharedStaffWorks && (
-              <SharedStaffWorks shared={anime.sharedStaffWorks} />
+              <SharedStaffWorks
+                shared={anime.sharedStaffWorks}
+                hoveredStaffId={hoveredStaffId}
+                focusedStaffIds={focusedStaffIds}
+                onHoverStaff={setHoveredStaffId}
+                onToggleFocus={toggleFocus}
+              />
             )}
           </>
         )}
