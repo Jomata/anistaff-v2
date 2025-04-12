@@ -31,17 +31,6 @@ export default function StaffBreakdown({
   onHoverStaff,
   onToggleFocus,
 }: Props) {
-  /**
-   * When I'm actively hovering over a staff member, I want to highlight the entire row using bg-blue-100 dark:bg-blue-900
-   * When a staff member is focused or hovered in another way, I want to highlight the border using bg-yellow-100 dark:bg-yellow-800/20
-   * When either of those is true, I want to highlight the border using border-yellow-500
-   */
-  const hoveredClass = "hover:bg-blue-100 dark:hover:bg-blue-900";
-  const highlightedBorderClass = "border-yellow-500";
-  const highlightedClass = `${highlightedBorderClass} bg-yellow-100 dark:bg-yellow-800/20`;
-  const defaultBorderClass = "border-blue-500";
-  const defaultClass = `${defaultBorderClass}`;
-
   return (
     <div className="mt-8">
       <h3 className="text-xl font-bold mb-4">Staff Breakdown</h3>
@@ -57,17 +46,18 @@ export default function StaffBreakdown({
                 {members
                   .sort((a, b) => a.name.localeCompare(b.name))
                   .map((member) => {
-                    const isHovered = hoveredStaffId === member.id;
+                    const isCrossHovered = hoveredStaffId === member.id;
                     const isFocused = focusedStaffIds.has(member.id);
-                    const isHighlighted = isHovered || isFocused;
+                    const isHighlighted = isCrossHovered || isFocused;
+
                     return (
                       <li
                         key={member.id}
                         onMouseEnter={() => onHoverStaff(member.id)}
                         onMouseLeave={() => onHoverStaff(null)}
                         onClick={() => onToggleFocus(member.id)}
-                        className={`p-1 rounded ${hoveredClass} ${
-                          isHighlighted ? highlightedClass : defaultClass
+                        className={`p-1 rounded hover:bg-blue-100 dark:hover:bg-blue-900 ${
+                          isFocused ? "bg-yellow-100 dark:bg-yellow-800/20" : ""
                         }`}
                       >
                         <div className="flex items-center justify-between gap-2">
@@ -85,7 +75,7 @@ export default function StaffBreakdown({
                             </span>
                           </div>
                           <button className="text-lg" title="Toggle focus">
-                            {focusedStaffIds.has(member.id) ? "★" : "☆"}
+                            {isFocused ? "★" : "☆"}
                           </button>
                         </div>
 
@@ -98,8 +88,8 @@ export default function StaffBreakdown({
                                   key={work.title}
                                   className={`border-l-4 pl-2 ${
                                     isHighlighted
-                                      ? highlightedBorderClass
-                                      : defaultBorderClass
+                                      ? "border-yellow-500"
+                                      : "border-blue-500"
                                   }`}
                                 >
                                   <a

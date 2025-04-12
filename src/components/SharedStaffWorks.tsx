@@ -17,23 +17,12 @@ export default function SharedStaffWorks({
 }: Props) {
   if (!shared.length) return null;
 
-  //We sort by amount of shared staff, then by title
   const sortedSharedStaff = shared.sort((a, b) => {
     if (a.sharedStaff.length !== b.sharedStaff.length) {
-      return b.sharedStaff.length - a.sharedStaff.length; // Descending order
+      return b.sharedStaff.length - a.sharedStaff.length;
     }
-    return a.title.localeCompare(b.title); // Ascending order by title
+    return a.title.localeCompare(b.title);
   });
-
-  /**
-   * When I'm actively hovering over a staff member, I want to highlight the entire row using bg-blue-100 dark:bg-blue-900
-   * When a staff member is focused or hovered in another way, I want to highlight the border using bg-yellow-100 dark:bg-yellow-800/20
-   * When either of those is true, I want to highlight the border using border-yellow-500
-   */
-  const hoveredClass = "hover:bg-blue-100 dark:hover:bg-blue-900";
-  const highlightedClass =
-    "border-yellow-500 bg-yellow-100 dark:bg-yellow-800/20";
-  const defaultClass = "border-blue-500";
 
   return (
     <div className="mt-8">
@@ -61,17 +50,20 @@ export default function SharedStaffWorks({
               {work.sharedStaff
                 .sort((a, b) => a.name.localeCompare(b.name))
                 .map((person) => {
-                  const isHovered = hoveredStaffId === person.id;
+                  const isCrossHovered = hoveredStaffId === person.id;
                   const isFocused = focusedStaffIds.has(person.id);
-                  const isHighlighted = isHovered || isFocused;
+                  const isHighlighted = isCrossHovered || isFocused;
+
                   return (
                     <li
                       key={person.id}
                       onMouseEnter={() => onHoverStaff(person.id)}
                       onMouseLeave={() => onHoverStaff(null)}
                       onClick={() => onToggleFocus(person.id)}
-                      className={`border-l-4 pl-2 rounded-r ${hoveredClass} ${
-                        isHighlighted ? highlightedClass : defaultClass
+                      className={`border-l-4 pl-2 rounded-r hover:bg-blue-100 dark:hover:bg-blue-900 ${
+                        isFocused ? "bg-yellow-100 dark:bg-yellow-800/20" : ""
+                      } ${
+                        isHighlighted ? "border-yellow-500" : "border-blue-500"
                       }`}
                     >
                       <div className="flex items-center justify-between gap-2">
@@ -89,7 +81,7 @@ export default function SharedStaffWorks({
                           — {person.roles.join(", ")}
                         </div>
                         <button className="text-lg pr-1" title="Toggle focus">
-                          {focusedStaffIds.has(person.id) ? "★" : "☆"}
+                          {isFocused ? "★" : "☆"}
                         </button>
                       </div>
                     </li>
